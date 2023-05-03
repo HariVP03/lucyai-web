@@ -1,6 +1,6 @@
 import { ThemeConfig, extendTheme } from "@chakra-ui/react";
 
-const commonFont = "Oxygen, sans-serif";
+const commonFont = "Poppins, sans-serif";
 
 const config: ThemeConfig = {
   initialColorMode: "light",
@@ -12,4 +12,10 @@ const fonts = {
   body: commonFont,
 };
 
-export const theme = extendTheme({ config, fonts });
+const colors = {
+  brand: {
+    100: "#1B1B1E",
+  },
+};
+
+export const theme = extendTheme({ config, fonts, colors });
