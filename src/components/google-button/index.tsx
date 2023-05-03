@@ -1,19 +1,14 @@
 import { FcGoogle } from "react-icons/fc";
-import { Button, Center, Text } from "@chakra-ui/react";
+import { Button, ButtonProps, Center, Text } from "@chakra-ui/react";
 
-export function GoogleButton() {
+interface GoogleButtonProps extends ButtonProps {}
+
+export function GoogleButton(props: GoogleButtonProps) {
   return (
-    <Center p={8}>
-      <Button
-        w={"full"}
-        maxW={"md"}
-        variant={"outline"}
-        leftIcon={<FcGoogle />}
-      >
-        <Center>
-          <Text>Sign in with Google</Text>
-        </Center>
-      </Button>
-    </Center>
+    <Button variant={"outline"} leftIcon={<FcGoogle />} {...props}>
+      <Center>
+        <Text>Sign in with Google</Text>
+      </Center>
+    </Button>
   );
 }
