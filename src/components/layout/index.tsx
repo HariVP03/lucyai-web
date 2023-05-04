@@ -34,11 +34,11 @@ export function Layout({ children }: LayoutProps) {
   return (
     <Box
       as="section"
-      bg="white"
+      overflow="hidden"
       _dark={{
         bg: "gray.700",
       }}
-      minH="100vh"
+      maxH="100vh"
     >
       <SidebarContent
         display={{
@@ -66,17 +66,18 @@ export function Layout({ children }: LayoutProps) {
         <Flex
           as="header"
           align="center"
-          justify="space-between"
+          justify="flex-end"
           w="full"
           px="4"
           py="10"
+          overflow="hidden"
           bg="white"
           _dark={{
             bg: "gray.800",
           }}
           borderBottomWidth="1px"
           borderColor="blackAlpha.300"
-          h="14"
+          h="96px"
         >
           <IconButton
             aria-label="Menu"
@@ -88,7 +89,7 @@ export function Layout({ children }: LayoutProps) {
             icon={<FiMenu />}
             size="sm"
           />
-          <InputGroup
+          {/* <InputGroup
             w="96"
             display={{
               base: "none",
@@ -99,7 +100,7 @@ export function Layout({ children }: LayoutProps) {
               <FiSearch />
             </InputLeftElement>
             <Input placeholder="Search for articles..." />
-          </InputGroup>
+          </InputGroup> */}
 
           <Flex align="center">
             <Menu>
@@ -127,7 +128,7 @@ export function Layout({ children }: LayoutProps) {
           </Flex>
         </Flex>
 
-        <Box as="main" p="4">
+        <Box as="main" p="4" h="calc(100vh - 96px)" position="relative">
           {children}
         </Box>
       </Box>
@@ -136,7 +137,7 @@ export function Layout({ children }: LayoutProps) {
 }
 
 const NavItem = (props: any) => {
-  const { icon, children, ...rest } = props;
+  const { icon, children, isSelected, ...rest } = props;
   return (
     <Flex
       align="center"
@@ -144,9 +145,10 @@ const NavItem = (props: any) => {
       mx="2"
       rounded="md"
       py="3"
+      bg={isSelected && "gray.100"}
       cursor="pointer"
       _hover={{
-        bg: "gray.100",
+        bg: "gray.200",
       }}
       role="group"
       fontWeight="semibold"
@@ -186,8 +188,9 @@ const SidebarContent = (props: any) => (
       fontSize="sm"
       aria-label="Main Navigation"
     >
-      <NavItem icon={FiHome}>Home</NavItem>
-      <NavItem icon={IoChatbubbleOutline}>Chat</NavItem>
+      <NavItem isSelected icon={IoChatbubbleOutline}>
+        Chat
+      </NavItem>
     </Flex>
   </Box>
 );

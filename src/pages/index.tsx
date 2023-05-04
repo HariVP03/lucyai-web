@@ -11,13 +11,13 @@ export default function Home() {
 
   const { googleSignin } = useGoogleLogin({
     onSuccess() {
-      push("/dashboard");
+      push("/chat");
     },
   });
 
   useEffect(() => {
     if (user) {
-      push("/dashboard");
+      push("/chat");
     }
   }, [user]);
 
