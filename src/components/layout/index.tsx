@@ -7,9 +7,6 @@ import {
   Flex,
   Icon,
   IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Menu,
   MenuButton,
   MenuItem,
@@ -18,10 +15,23 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { FiMenu, FiSearch, FiHome } from "react-icons/fi";
+import { FiMenu, FiUsers } from "react-icons/fi";
 import { IoChatbubbleOutline } from "react-icons/io5";
-import { useUser } from "@/services/recoil/hooks";
 import { auth } from "@/services/firebase/config";
+import { useRouter } from "next/router";
+
+const navItems = [
+  {
+    title: "Chat",
+    icon: IoChatbubbleOutline,
+    route: "/chat",
+  },
+  {
+    title: "Mentions",
+    icon: FiUsers,
+    route: "/mentions",
+  },
+];
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -29,7 +39,6 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   const sidebar = useDisclosure();
-  const [user] = useUser();
 
   return (
     <Box
@@ -108,12 +117,12 @@ export function Layout({ children }: LayoutProps) {
                 as={Avatar}
                 ml="4"
                 size="md"
-                name={user?.displayName ?? ""}
-                src={user?.photoURL ?? ""}
+                name={auth.currentUser?.displayName ?? ""}
+                src={auth.currentUser?.photoURL ?? ""}
                 cursor="pointer"
               />
               <MenuList>
-                <MenuItem>Profile</MenuItem>
+                <MenuItem>Settings</MenuItem>
                 <MenuItem>Contact Us</MenuItem>
                 <MenuItem
                   onClick={() => {
@@ -136,16 +145,22 @@ export function Layout({ children }: LayoutProps) {
   );
 }
 
-const NavItem = (props: any) => {
-  const { icon, children, isSelected, ...rest } = props;
+const NavItem = (props: { icon: any; children: string; route: string }) => {
+  const { icon, children, route, ...rest } = props;
+  const { route: current } = useRouter();
+
+  console.log({ current, route });
+
   return (
     <Flex
       align="center"
       px="4"
       mx="2"
       rounded="md"
+      as="a"
+      href={route}
       py="3"
-      bg={isSelected && "gray.100"}
+      bg={current === route ? "gray.100" : "transparent"}
       cursor="pointer"
       _hover={{
         bg: "gray.200",
@@ -188,9 +203,14 @@ const SidebarContent = (props: any) => (
       fontSize="sm"
       aria-label="Main Navigation"
     >
-      <NavItem isSelected icon={IoChatbubbleOutline}>
+      {navItems.map((item, i) => (
+        <NavItem route={item.route} key={i} icon={item.icon}>
+          {item.title}
+        </NavItem>
+      ))}
+      {/* <NavItem isSelected icon={IoChatbubbleOutline}>
         Chat
-      </NavItem>
+      </NavItem> */}
     </Flex>
   </Box>
 );

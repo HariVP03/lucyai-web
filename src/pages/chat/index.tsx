@@ -1,29 +1,30 @@
 import { Layout } from "@/components";
 import { auth } from "@/services/firebase/config";
-import { useUser } from "@/services/recoil/hooks";
 import { Flex, Input, Button } from "@chakra-ui/react";
 import { onAuthStateChanged } from "firebase/auth";
 import Head from "next/head";
 import React, { useEffect } from "react";
 
 export default function Dashboard() {
-  const [user] = useUser();
-
-  useEffect(() => {
-    if (!user) {
-      window.location.href = "/";
-    }
-  }, [user]);
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          window.location.href = "/";
+        }
+      }),
+    []
+  );
 
   return (
     <>
       <Head>
-        <title>LucyAI</title>
+        <title>LucyAI | Chat</title>
       </Head>
 
       <Layout>
         <Flex w="100%" maxH="calc(100vh - 96px)" overflow="scroll">
-          <Flex bg="blue.100" w="full" h="100vh" mb="128px">
+          <Flex w="full" h="100vh" mb="128px">
             Main area, this is where the chat will be
           </Flex>
         </Flex>

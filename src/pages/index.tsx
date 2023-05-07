@@ -1,13 +1,12 @@
 import { GoogleButton } from "@/components";
 import { useGoogleLogin } from "@/services/firebase/auth/useGoogleLogin";
-import { useUser } from "@/services/recoil/hooks";
+import { auth } from "@/services/firebase/config";
 import { Flex, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function Home() {
   const { push } = useRouter();
-  const [user] = useUser();
 
   const { googleSignin } = useGoogleLogin({
     onSuccess() {
@@ -16,10 +15,10 @@ export default function Home() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (auth.currentUser) {
       push("/chat");
     }
-  }, [user]);
+  }, []);
 
   return (
     <Flex align="center" h="100vh" w="100vw" bg="white" flexDir="column">
