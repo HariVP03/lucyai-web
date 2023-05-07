@@ -147,7 +147,7 @@ export function Layout({ children }: LayoutProps) {
 
 const NavItem = (props: { icon: any; children: string; route: string }) => {
   const { icon, children, route, ...rest } = props;
-  const { route: current } = useRouter();
+  const { route: current, push } = useRouter();
 
   console.log({ current, route });
 
@@ -157,13 +157,14 @@ const NavItem = (props: { icon: any; children: string; route: string }) => {
       px="4"
       mx="2"
       rounded="md"
-      as="a"
-      href={route}
       py="3"
       bg={current === route ? "gray.100" : "transparent"}
       cursor="pointer"
       _hover={{
         bg: "gray.200",
+      }}
+      onClick={() => {
+        push(route);
       }}
       role="group"
       fontWeight="semibold"

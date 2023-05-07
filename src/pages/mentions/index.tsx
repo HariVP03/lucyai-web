@@ -17,15 +17,11 @@ import Head from "next/head";
 import React, { useEffect } from "react";
 
 export default function Mentions({ users }: any) {
-  useEffect(
-    () =>
-      onAuthStateChanged(auth, (user) => {
-        if (!user) {
-          window.location.href = "/";
-        }
-      }),
-    []
-  );
+  useEffect(() => {
+    if (auth.currentUser === null) {
+      window.location.href = "/";
+    }
+  }, []);
 
   return (
     <>

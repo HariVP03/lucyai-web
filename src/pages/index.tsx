@@ -2,6 +2,7 @@ import { GoogleButton } from "@/components";
 import { useGoogleLogin } from "@/services/firebase/auth/useGoogleLogin";
 import { auth } from "@/services/firebase/config";
 import { Flex, Heading } from "@chakra-ui/react";
+import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -18,6 +19,12 @@ export default function Home() {
     if (auth.currentUser) {
       push("/chat");
     }
+
+    return onAuthStateChanged(auth, (user) => {
+      if (user) {
+        push("/chat");
+      }
+    });
   }, []);
 
   return (
