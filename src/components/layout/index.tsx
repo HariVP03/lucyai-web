@@ -19,6 +19,7 @@ import { FiMenu, FiUsers } from "react-icons/fi";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { auth } from "@/services/firebase/config";
 import { useRouter } from "next/router";
+import { SettingsModal } from "../settings-modal";
 
 const navItems = [
   {
@@ -39,6 +40,7 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   const sidebar = useDisclosure();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <Box
@@ -112,7 +114,7 @@ export function Layout({ children }: LayoutProps) {
                 cursor="pointer"
               />
               <MenuList>
-                <MenuItem>Settings</MenuItem>
+                <MenuItem onClick={() => onOpen()}>Settings</MenuItem>
                 <MenuItem>Contact Us</MenuItem>
                 <MenuItem
                   onClick={() => {
@@ -136,6 +138,8 @@ export function Layout({ children }: LayoutProps) {
           {children}
         </Box>
       </Box>
+
+      <SettingsModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 }
