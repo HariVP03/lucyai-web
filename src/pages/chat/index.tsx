@@ -1,5 +1,6 @@
 import { Layout } from "@/components";
 import { ChatMessage } from "@/components/chat-message";
+import { createAxios } from "@/services/axios";
 import { auth } from "@/services/firebase/config";
 import { Message } from "@/types/messages";
 import { Flex, Input, Button } from "@chakra-ui/react";
@@ -16,6 +17,7 @@ export default function Chat() {
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -31,6 +33,24 @@ export default function Chat() {
         message: input,
       },
     ]);
+
+    setLoading(true);
+
+    createAxios()
+      .post("/", {
+        prompt: input,
+      })
+      .then(({ data }) => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            message: data.front,
+          },
+        ]);
+
+        setLoading(false);
+      });
 
     setInput("");
   }
@@ -99,8 +119,16 @@ export default function Chat() {
             onChange={(e) => setInput(e.target.value)}
           />
 
-          <Button onClick={onSend} ref={buttonRef} my="auto" mx="4">
-            Send
+          <Button
+            isLoading={loading}
+            loadingText="Getting response..."
+            onClick={onSend}
+            isDisabled={input === ""}
+            ref={buttonRef}
+            my="auto"
+            mx="4"
+          >
+            Ask
           </Button>
         </Flex>
       </Layout>

@@ -144,8 +144,6 @@ const NavItem = (props: { icon: any; children: string; route: string }) => {
   const { icon, children, route, ...rest } = props;
   const { route: current, push } = useRouter();
 
-  console.log({ current, route });
-
   return (
     <Flex
       align="center"

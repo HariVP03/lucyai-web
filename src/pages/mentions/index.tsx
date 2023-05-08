@@ -11,7 +11,6 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { onAuthStateChanged } from "firebase/auth";
 import Head from "next/head";
 import React, { useEffect } from "react";
 import { createAxios } from "@/services/axios";
