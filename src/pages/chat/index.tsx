@@ -121,10 +121,11 @@ export default function Chat() {
 
           <Button
             isLoading={loading}
-            loadingText="Getting response..."
+            loadingText="Asking"
             onClick={onSend}
             isDisabled={input === ""}
             ref={buttonRef}
+            px="4"
             my="auto"
             mx="4"
           >
