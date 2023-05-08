@@ -68,8 +68,9 @@ export function Layout({ children }: LayoutProps) {
       <Box
         ml={{
           base: 0,
-          md: 60,
+          md: "256px",
         }}
+        overflow="hidden"
         transition=".3s ease"
       >
         <Flex
@@ -98,25 +99,14 @@ export function Layout({ children }: LayoutProps) {
             icon={<FiMenu />}
             size="sm"
           />
-          {/* <InputGroup
-            w="96"
-            display={{
-              base: "none",
-              md: "flex",
-            }}
-          >
-            <InputLeftElement color="gray.500">
-              <FiSearch />
-            </InputLeftElement>
-            <Input placeholder="Search for articles..." />
-          </InputGroup> */}
 
           <Flex align="center">
             <Menu>
               <MenuButton
                 as={Avatar}
                 ml="4"
-                size="md"
+                h="42px"
+                w="42px"
                 name={auth.currentUser?.displayName ?? ""}
                 src={auth.currentUser?.photoURL ?? ""}
                 cursor="pointer"
@@ -137,7 +127,12 @@ export function Layout({ children }: LayoutProps) {
           </Flex>
         </Flex>
 
-        <Box as="main" p="4" h="calc(100vh - 96px)" position="relative">
+        <Box
+          as="main"
+          h="calc(100vh - 96px)"
+          overflow="hidden"
+          position="relative"
+        >
           {children}
         </Box>
       </Box>
@@ -190,10 +185,14 @@ const SidebarContent = (props: any) => (
     overflowY="auto"
     borderColor="blackAlpha.300"
     borderRightWidth="1px"
-    w="60"
+    w="256px"
     {...props}
   >
-    <Flex px="4" py="5" align="center">
+    <Flex px="4" py="5" align="center" gap="4px">
+      <Avatar
+        size="sm"
+        src="https://api.dicebear.com/6.x/thumbs/svg?seed=Boots"
+      />
       <Text fontSize="2xl" ml="2" fontWeight="bold">
         LucyAI
       </Text>
@@ -209,9 +208,6 @@ const SidebarContent = (props: any) => (
           {item.title}
         </NavItem>
       ))}
-      {/* <NavItem isSelected icon={IoChatbubbleOutline}>
-        Chat
-      </NavItem> */}
     </Flex>
   </Box>
 );
