@@ -1,6 +1,5 @@
 import { Layout } from "@/components";
 import { auth } from "@/services/firebase/config";
-import axios from "axios";
 import {
   TableContainer,
   Table,
@@ -15,6 +14,7 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import Head from "next/head";
 import React, { useEffect } from "react";
+import { createAxios } from "@/services/axios";
 
 export default function Mentions({ users }: any) {
   useEffect(() => {
@@ -50,21 +50,6 @@ export default function Mentions({ users }: any) {
                   <Td>{user.email}</Td>
                 </Tr>
               ))}
-              {/* <Tr>
-                <Td>inches</Td>
-                <Td>millimetres (mm)</Td>
-                <Td>25.4</Td>
-              </Tr>
-              <Tr>
-                <Td>feet</Td>
-                <Td>centimetres (cm)</Td>
-                <Td>30.48</Td>
-              </Tr>
-              <Tr>
-                <Td>yards</Td>
-                <Td>metres (m)</Td>
-                <Td>0.91444</Td>
-              </Tr> */}
             </Tbody>
             <Tfoot>
               <Tr>
@@ -81,7 +66,7 @@ export default function Mentions({ users }: any) {
 }
 
 export async function getServerSideProps() {
-  const { data } = await axios.get("http://localhost:3000/company-users");
+  const { data } = await createAxios().get("/company-users");
 
   return {
     props: {
