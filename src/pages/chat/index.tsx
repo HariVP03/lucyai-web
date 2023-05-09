@@ -4,7 +4,6 @@ import { createAxios } from "@/services/axios";
 import { auth } from "@/services/firebase/config";
 import { Message } from "@/types/messages";
 import { Flex, Input, Button } from "@chakra-ui/react";
-import { onAuthStateChanged } from "firebase/auth";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 

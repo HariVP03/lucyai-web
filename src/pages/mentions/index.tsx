@@ -1,5 +1,5 @@
 import { Layout } from "@/components";
-import { auth } from "@/services/firebase/config";
+import { auth, db } from "@/services/firebase/config";
 import {
   TableContainer,
   Table,
@@ -12,15 +12,27 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import React, { useEffect } from "react";
-import { createAxios } from "@/services/axios";
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
 
-export default function Mentions({ users }: any) {
+export default function Mentions() {
+  const [users, setUsers] = useState<any[]>([]);
   useEffect(() => {
     if (auth.currentUser === null) {
       window.location.href = "/";
     }
   }, []);
+
+  useEffect(() => {
+    getDocs(collection(db, "/company-mentions")).then((querySnapshot) => {
+      let final: any[] = [];
+      querySnapshot.forEach((doc) => {
+        final = [...final, { id: doc.id, ...doc.data() }];
+      });
+
+      setUsers(final);
+    });
+  }, [auth.currentUser]);
 
   return (
     <>
@@ -62,14 +74,4 @@ export default function Mentions({ users }: any) {
       </Layout>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  const { data } = await createAxios().get("/company-users");
-
-  return {
-    props: {
-      users: data,
-    },
-  };
 }
