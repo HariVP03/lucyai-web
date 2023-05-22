@@ -49,30 +49,21 @@ export default function Mentions() {
             </TableCaption>
             <Thead>
               <Tr>
-                <Th>Mention</Th>
-                <Th>Name</Th>
-                <Th>Email</Th>
-                <Th>Expertise</Th>
+                {Object.keys(users[0]).map((e) => (
+                  <Th>{e}</Th>
+                ))}
               </Tr>
             </Thead>
             <Tbody>
               {users.map((user: any, key: number) => (
                 <Tr key={key}>
-                  <Td>{user.id}</Td>
+                  <Td>@{user.id}</Td>
                   <Td>{user.name}</Td>
                   <Td>{user.email}</Td>
                   <Td>{user.expertise}</Td>
                 </Tr>
               ))}
             </Tbody>
-            <Tfoot>
-              <Tr>
-                <Th>Mention</Th>
-                <Th>Name</Th>
-                <Th>Email</Th>
-                <Th>Expertise</Th>
-              </Tr>
-            </Tfoot>
           </Table>
         </TableContainer>
       </Layout>
