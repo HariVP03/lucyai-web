@@ -3,7 +3,7 @@ import { ChatMessage } from "@/components/chat-message";
 import { createAxios } from "@/services/axios";
 import { auth } from "@/services/firebase/config";
 import { Message } from "@/types/messages";
-import { Flex, Input, Button } from "@chakra-ui/react";
+import { Flex, Input, Button, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
@@ -21,6 +21,12 @@ export default function Chat() {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const bottomRef = React.useRef<HTMLDivElement>(null);
+
+  const errorToast = useToast({
+    title: "An error occured",
+    description: "Please try again later",
+    status: "error",
+  });
 
   function onSend() {
     if (input === "") return;
@@ -49,6 +55,11 @@ export default function Chat() {
         ]);
 
         setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+
+        errorToast();
       });
 
     setInput("");

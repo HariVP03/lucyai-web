@@ -49,9 +49,10 @@ export default function Mentions() {
             </TableCaption>
             <Thead>
               <Tr>
-                {Object.keys(users[0]).map((e) => (
-                  <Th>{e}</Th>
-                ))}
+                <Th>Mention</Th>
+                <Th>Name</Th>
+                <Th>Email</Th>
+                <Th>Expertise</Th>
               </Tr>
             </Thead>
             <Tbody>
