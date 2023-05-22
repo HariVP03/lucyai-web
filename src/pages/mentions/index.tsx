@@ -52,6 +52,7 @@ export default function Mentions() {
                 <Th>Mention</Th>
                 <Th>Name</Th>
                 <Th>Email</Th>
+                <Th>Expertise</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -60,6 +61,7 @@ export default function Mentions() {
                   <Td>{user.id}</Td>
                   <Td>{user.name}</Td>
                   <Td>{user.email}</Td>
+                  <Td>{user.expertise}</Td>
                 </Tr>
               ))}
             </Tbody>
@@ -68,6 +70,7 @@ export default function Mentions() {
                 <Th>Mention</Th>
                 <Th>Name</Th>
                 <Th>Email</Th>
+                <Th>Expertise</Th>
               </Tr>
             </Tfoot>
           </Table>

@@ -131,7 +131,12 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   </InputGroup>
                   <FormHelperText>
                     Get your OpenAI API key from{" "}
-                    <Link>https://platform.openai.com/account/api-keys</Link>{" "}
+                    <Link
+                      target="_blank"
+                      href="https://platform.openai.com/account/api-keys"
+                    >
+                      https://platform.openai.com/account/api-keys
+                    </Link>{" "}
                   </FormHelperText>
                 </FormControl>
               </TabPanel>
@@ -163,7 +168,12 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   </InputGroup>
                   <FormHelperText>
                     Get your Google App Specific Key from{" "}
-                    <Link>https://myaccount.google.com/apppasswords</Link>{" "}
+                    <Link
+                      target="_blank"
+                      href="https://myaccount.google.com/apppasswords"
+                    >
+                      https://myaccount.google.com/apppasswords
+                    </Link>{" "}
                   </FormHelperText>
                 </FormControl>
               </TabPanel>

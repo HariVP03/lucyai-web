@@ -3,8 +3,8 @@ import { auth } from "../firebase/config";
 
 export function createAxios() {
   const instance = axios.create({
-    // baseURL: process.env.API_URL || "http://localhost:3000",
-    baseURL: process.env.API_URL || "https://lucyai-api.harivishnu.com",
+    baseURL: process.env.API_URL || "http://localhost:3000",
+    // baseURL: process.env.API_URL || "https://lucyai-api.harivishnu.com",
   });
 
   instance.interceptors.request.use(
