@@ -14,7 +14,6 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-
 import { FiMenu, FiUsers } from "react-icons/fi";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { auth } from "@/services/firebase/config";
@@ -115,7 +114,13 @@ export function Layout({ children }: LayoutProps) {
               />
               <MenuList>
                 <MenuItem onClick={() => onOpen()}>Settings</MenuItem>
-                <MenuItem>Contact Us</MenuItem>
+                <MenuItem
+                  as="a"
+                  target="_blank"
+                  href="https://calendly.com/harivishnu"
+                >
+                  Contact Us
+                </MenuItem>
                 <MenuItem
                   onClick={() => {
                     auth.signOut();
