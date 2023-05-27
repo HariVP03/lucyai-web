@@ -19,18 +19,6 @@ export const createChatSlice: StateCreator<ChatSlice> = (set) => ({
   getMessages() {
     const messages: Message[] = storage.get(StorageKeys.messages) || [];
 
-    const lastMessage: Message | undefined = messages[messages.length - 1];
-
-    if (lastMessage && lastMessage.sender !== "system") {
-      messages.push({
-        sender: "system",
-        message: `Loaded messages of previous chat from ${new Date(
-          lastMessage?.sentAt ?? ""
-        ).toLocaleString()}`,
-        sentAt: new Date().toISOString(),
-      });
-    }
-
     set({
       messages: [...messages],
     });
@@ -38,10 +26,23 @@ export const createChatSlice: StateCreator<ChatSlice> = (set) => ({
 
   addMessage(message) {
     set((state) => {
-      const newMessages = [
-        ...state.messages,
-        { ...message, sentAt: new Date().toISOString() },
-      ];
+      const newMessages = [...state.messages];
+
+      const lastMessage = newMessages[newMessages.length - 1];
+
+      if (
+        !lastMessage.sentAt ||
+        (lastMessage.sender !== "system" &&
+          new Date(lastMessage.sentAt).getDate() !== new Date().getDate())
+      ) {
+        newMessages.push({
+          message: `${new Date().toLocaleDateString()}`,
+          sentAt: new Date().toISOString(),
+          sender: "system",
+        });
+      }
+
+      newMessages.push({ ...message, sentAt: new Date().toISOString() });
 
       storage.set(StorageKeys.messages, newMessages);
 

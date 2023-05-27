@@ -1,18 +1,20 @@
 import { auth } from "@/services/firebase/config";
 import { Message } from "@/types/messages";
-import { Avatar, BackgroundProps, Flex } from "@chakra-ui/react";
+import { Avatar, BackgroundProps, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 
 interface ChatMessageProps extends Partial<Message> {}
 
-export function ChatMessage({ message, sender }: ChatMessageProps) {
+export function ChatMessage(msg: ChatMessageProps) {
+  const { sender } = msg;
+
   switch (sender) {
     case "user":
-      return <RightMessage sender={sender} message={message} />;
+      return <RightMessage {...msg} />;
     case "system":
-      return <LeftMessage sender={sender} message={message} bg="aliceblue" />;
+      return <SystemMessage {...msg} bg="aliceblue" />;
     case "bot":
-      return <LeftMessage sender={sender} message={message} />;
+      return <LeftMessage {...msg} />;
     default:
       return null;
   }
@@ -28,16 +30,42 @@ interface LeftMessageProps extends ChatMessageProps {
   bg?: BackgroundProps["bg"];
 }
 
-function LeftMessage({ message, sender, bg }: LeftMessageProps) {
+interface SystemMessageProps extends ChatMessageProps {
+  bg?: BackgroundProps["bg"];
+}
+
+function SystemMessage({ message, sender, sentAt, bg }: SystemMessageProps) {
   return (
-    <Flex py="16px" align="center" gap="24px" bg={bg ?? "gray.100"} px="16px">
-      <Photo src={Images[sender ?? "bot"]} />
-      {message}
+    <Flex
+      top="0"
+      position="sticky"
+      py="16px"
+      align="center"
+      gap="24px"
+      bg={bg ?? "gray.100"}
+      px="16px"
+    >
+      <Text w="full" textAlign="center" fontSize="xs" color="gray.500">
+        {message}
+      </Text>
     </Flex>
   );
 }
 
-function RightMessage({ message }: LeftMessageProps) {
+function LeftMessage({ message, sender, bg, sentAt }: LeftMessageProps) {
+  return (
+    <Flex py="16px" align="center" gap="24px" bg={bg ?? "gray.100"} px="16px">
+      <Photo src={Images[sender ?? "bot"]} />
+      {message}
+      <Text fontSize="xs" color="gray.500">
+        {sentAt &&
+          `${new Date(sentAt).getHours()}:${new Date(sentAt).getMinutes()}`}
+      </Text>
+    </Flex>
+  );
+}
+
+function RightMessage({ message, sentAt }: LeftMessageProps) {
   return (
     <Flex
       py="16px"
@@ -49,6 +77,10 @@ function RightMessage({ message }: LeftMessageProps) {
     >
       <Photo src={auth.currentUser?.photoURL ?? ""} />
       {message}
+      <Text fontSize="xs" color="gray.500">
+        {sentAt &&
+          `${new Date(sentAt).getHours()}:${new Date(sentAt).getMinutes()}`}
+      </Text>
     </Flex>
   );
 }
