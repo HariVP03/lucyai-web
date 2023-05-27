@@ -19,7 +19,7 @@ export function ChatMessage({ message, sender }: ChatMessageProps) {
 }
 
 const Images = {
-  user: auth.currentUser?.photoURL ?? "",
+  user: "",
   bot: "https://api.dicebear.com/6.x/thumbs/svg?seed=Boots",
   system: "https://api.dicebear.com/6.x/bottts/svg?seed=Bandit",
 };
@@ -37,7 +37,7 @@ function LeftMessage({ message, sender, bg }: LeftMessageProps) {
   );
 }
 
-function RightMessage({ message, sender }: LeftMessageProps) {
+function RightMessage({ message }: LeftMessageProps) {
   return (
     <Flex
       py="16px"
@@ -47,7 +47,7 @@ function RightMessage({ message, sender }: LeftMessageProps) {
       gap="24px"
       px="32px"
     >
-      <Photo src={Images[sender ?? "user"]} />
+      <Photo src={auth.currentUser?.photoURL ?? ""} />
       {message}
     </Flex>
   );
