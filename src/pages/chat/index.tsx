@@ -1,22 +1,18 @@
+import { sendPrompt } from "@/api";
 import { Layout } from "@/components";
 import { ChatMessage } from "@/components/chat-message";
-import { createAxios } from "@/services/axios";
-import { auth } from "@/services/firebase/config";
+import { auth } from "@/services";
+import { useStore } from "@/states";
 import { Message } from "@/types/messages";
 import { Flex, Input, Button, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 export default function Chat() {
-  useEffect(() => {
-    if (auth.currentUser === null) {
-      window.location.href = "/";
-    }
-  }, []);
-
-  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const { messages, addMessage, getMessages } = useStore((state) => state);
 
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -28,39 +24,44 @@ export default function Chat() {
     status: "error",
   });
 
+  useEffect(() => {
+    getMessages();
+  }, []);
+
+  useEffect(() => {
+    if (auth.currentUser === null) {
+      window.location.href = "/";
+    }
+  }, []);
+
+  const { isFetching: loading, refetch: fetch } = useQuery(
+    "send-prompt",
+    () => sendPrompt(input),
+    {
+      enabled: false,
+
+      onSuccess({ data }) {
+        addMessage({
+          sender: "bot",
+          message: data.front,
+        });
+      },
+
+      onError() {
+        errorToast();
+      },
+    }
+  );
+
   function onSend() {
     if (input === "") return;
 
-    setMessages((prev) => [
-      ...prev,
-      {
-        sender: "user",
-        message: input,
-      },
-    ]);
+    addMessage({
+      sender: "user",
+      message: input,
+    });
 
-    setLoading(true);
-
-    createAxios()
-      .post("/", {
-        prompt: input,
-      })
-      .then(({ data }) => {
-        setMessages((prev) => [
-          ...prev,
-          {
-            sender: "bot",
-            message: data.front,
-          },
-        ]);
-
-        setLoading(false);
-      })
-      .catch((e) => {
-        setLoading(false);
-
-        errorToast();
-      });
+    fetch();
 
     setInput("");
   }
@@ -94,12 +95,11 @@ export default function Chat() {
       <Layout>
         <Flex
           w="100%"
-          maxH="calc(100vh - 96px)"
+          maxH="calc(100vh - 200px)"
           flexDirection="column"
           position="relative"
           marginRight="-24px"
           overflow="scroll"
-          pt="96px"
           marginBottom="96px"
         >
           {messages.map((message, index) => (

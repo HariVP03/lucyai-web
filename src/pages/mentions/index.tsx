@@ -14,7 +14,6 @@ import {
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { GetServerSideProps, GetStaticProps } from "next";
 
 export default function Mentions() {
   const [users, setUsers] = useState<any[]>([]);
