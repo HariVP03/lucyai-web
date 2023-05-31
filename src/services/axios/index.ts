@@ -1,8 +1,8 @@
-import axios from "axios";
+import client from "axios";
 import { auth } from "../firebase/config";
 
-export function createAxios() {
-  const instance = axios.create({
+export function axios() {
+  const instance = client.create({
     baseURL: process.env.API_URL || "http://localhost:3000",
     // baseURL: process.env.API_URL || "https://lucyai-api.harivishnu.com",
   });
