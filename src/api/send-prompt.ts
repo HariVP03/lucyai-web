@@ -1,7 +1,11 @@
 import { axios } from "@/services/axios";
 
 export async function sendPrompt(input: string) {
-  return await axios().post("/", {
+  const { data } = await axios().post("/", {
     prompt: input,
   });
+
+  const summary = data.back.map((item: any) => item.summary).join("\n");
+
+  return summary;
 }

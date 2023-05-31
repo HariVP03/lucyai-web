@@ -3,7 +3,6 @@ import { Layout } from "@/components";
 import { ChatMessage } from "@/components/chat-message";
 import { auth } from "@/services";
 import { useStore } from "@/states";
-import { Message } from "@/types/messages";
 import { Flex, Input, Button, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
@@ -40,10 +39,10 @@ export default function Chat() {
     {
       enabled: false,
 
-      onSuccess({ data }) {
+      onSuccess(summary) {
         addMessage({
           sender: "bot",
-          message: data.front,
+          message: summary,
         });
       },
 

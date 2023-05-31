@@ -1,6 +1,6 @@
 import { auth } from "@/services/firebase/config";
 import { Message } from "@/types/messages";
-import { Avatar, BackgroundProps, Flex, Text } from "@chakra-ui/react";
+import { Avatar, BackgroundProps, Flex, Text, chakra } from "@chakra-ui/react";
 import React from "react";
 
 interface ChatMessageProps extends Partial<Message> {}
@@ -37,12 +37,17 @@ interface SystemMessageProps extends ChatMessageProps {
 function SystemMessage({ message, sender, sentAt, bg }: SystemMessageProps) {
   return (
     <Flex
-      top="0"
+      top="4px"
       position="sticky"
-      py="16px"
+      py="8px"
+      border="1px solid"
+      borderColor="gainsboro"
+      mx="auto"
       align="center"
       gap="24px"
-      bg={bg ?? "gray.100"}
+      w="110px"
+      rounded="full"
+      bg={"white"}
       px="16px"
     >
       <Text w="full" textAlign="center" fontSize="xs" color="gray.500">
@@ -54,12 +59,32 @@ function SystemMessage({ message, sender, sentAt, bg }: SystemMessageProps) {
 
 function LeftMessage({ message, sender, bg, sentAt }: LeftMessageProps) {
   return (
-    <Flex py="16px" align="center" gap="24px" bg={bg ?? "gray.100"} px="16px">
+    <Flex py="24px" align="center" gap="24px" bg={bg ?? "gray.100"} px="16px">
       <Photo src={Images[sender ?? "bot"]} />
-      {message}
+      {message?.includes("\n") ? (
+        <>
+          {message?.split("\n").map((line, i) => (
+            <>
+              {line}{" "}
+              {i !== message?.split("\n").length - 1 && (
+                <>
+                  <br />
+                  <br />
+                </>
+              )}
+            </>
+          ))}
+        </>
+      ) : (
+        message
+      )}
+
       <Text fontSize="xs" color="gray.500">
         {sentAt &&
-          `${new Date(sentAt).getHours()}:${new Date(sentAt).getMinutes()}`}
+          `${new Date(sentAt).toLocaleTimeString(undefined, {
+            timeStyle: "short",
+            hour12: false,
+          })}`}
       </Text>
     </Flex>
   );
@@ -68,7 +93,7 @@ function LeftMessage({ message, sender, bg, sentAt }: LeftMessageProps) {
 function RightMessage({ message, sentAt }: LeftMessageProps) {
   return (
     <Flex
-      py="16px"
+      py="24px"
       align="center"
       flexDirection="row-reverse"
       justify="flex-start"
@@ -79,7 +104,10 @@ function RightMessage({ message, sentAt }: LeftMessageProps) {
       {message}
       <Text fontSize="xs" color="gray.500">
         {sentAt &&
-          `${new Date(sentAt).getHours()}:${new Date(sentAt).getMinutes()}`}
+          `${new Date(sentAt).toLocaleTimeString(undefined, {
+            timeStyle: "short",
+            hour12: false,
+          })}`}
       </Text>
     </Flex>
   );
