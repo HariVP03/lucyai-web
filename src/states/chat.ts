@@ -31,8 +31,8 @@ export const createChatSlice: StateCreator<ChatSlice> = (set) => ({
       const lastMessage = newMessages[newMessages.length - 1];
 
       if (
-        !lastMessage.sentAt ||
-        (lastMessage.sender !== "system" &&
+        !lastMessage?.sentAt ||
+        (lastMessage?.sender !== "system" &&
           new Date(lastMessage.sentAt).getDate() !== new Date().getDate())
       ) {
         newMessages.push({
