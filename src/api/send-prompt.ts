@@ -5,7 +5,11 @@ export async function sendPrompt(input: string) {
     prompt: input,
   });
 
-  const summary = data.back.map((item: any) => item.summary).join("\n");
+  let final = data?.front;
 
-  return summary;
+  if (data?.back?.[0]?.summary) {
+    final = data.back?.map((item: any) => item.summary).join("\n");
+  }
+
+  return final;
 }

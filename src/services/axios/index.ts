@@ -3,12 +3,12 @@ import { auth } from "../firebase/config";
 
 export function axios() {
   const instance = client.create({
-    baseURL: process.env.API_URL || "http://localhost:3000",
+    baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
     // baseURL: process.env.API_URL || "https://lucyai-api.harivishnu.com",
   });
 
   console.log({
-    baseURL: process.env.API_URL || "http://localhost:3000",
+    baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
     // baseURL: process.env.API_URL || "https://lucyai-api.harivishnu.com",
   });
 
