@@ -7,6 +7,11 @@ export function axios() {
     // baseURL: process.env.API_URL || "https://lucyai-api.harivishnu.com",
   });
 
+  console.log({
+    baseURL: process.env.API_URL || "http://localhost:3000",
+    // baseURL: process.env.API_URL || "https://lucyai-api.harivishnu.com",
+  });
+
   instance.interceptors.request.use(
     (config) => {
       // Do something before request is sent
