@@ -6,7 +6,6 @@ import {
   TableCaption,
   Tbody,
   Td,
-  Tfoot,
   Th,
   Thead,
   Tr,
@@ -17,6 +16,7 @@ import { collection, getDocs } from "firebase/firestore";
 
 export default function Mentions() {
   const [users, setUsers] = useState<any[]>([]);
+
   useEffect(() => {
     if (auth.currentUser === null) {
       window.location.href = "/";
