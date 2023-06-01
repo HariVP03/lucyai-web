@@ -3,7 +3,7 @@ import { Layout } from "@/components";
 import { ChatMessage } from "@/components/chat-message";
 import { auth } from "@/services";
 import { useStore } from "@/states";
-import { Flex, Input, Button, useToast } from "@chakra-ui/react";
+import { Flex, Input, Button, useToast, Textarea } from "@chakra-ui/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -14,7 +14,7 @@ export default function Chat() {
   const { messages, addMessage, getMessages } = useStore((state) => state);
 
   const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const bottomRef = React.useRef<HTMLDivElement>(null);
 
   const errorToast = useToast({
@@ -94,7 +94,7 @@ export default function Chat() {
       <Layout>
         <Flex
           w="100%"
-          maxH="calc(100vh - 200px)"
+          maxH="calc(100vh - 120px)"
           flexDirection="column"
           position="relative"
           marginRight="-24px"
@@ -110,21 +110,25 @@ export default function Chat() {
 
         <Flex
           py="32px"
-          w="calc(100vw - 256px)"
+          w="calc(100vw - 64px)"
           borderTopWidth="1px"
           borderColor="blackAlpha.300"
           position="fixed"
           bottom="0"
           bg="white"
-          left="256px"
+          left="64px"
           right="0"
         >
-          <Input
+          <Textarea
             placeholder="Try saying send an email to Mark about hiring interns or delegate tasks for this project to Mark, Robert and John"
             mx="4"
             my="auto"
             value={input}
             ref={inputRef}
+            minHeight="42px"
+            _expanded={{
+              height: "fit-content",
+            }}
             onChange={(e) => setInput(e.target.value)}
           />
 

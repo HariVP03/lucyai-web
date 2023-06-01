@@ -59,25 +59,36 @@ function SystemMessage({ message, sender, sentAt, bg }: SystemMessageProps) {
 
 function LeftMessage({ message, sender, bg, sentAt }: LeftMessageProps) {
   return (
-    <Flex py="24px" align="center" gap="24px" bg={bg ?? "gray.100"} px="16px">
+    <Flex py="24px" align="center" gap="24px" px="16px">
       <Photo src={Images[sender ?? "bot"]} />
-      {message?.includes("\n") ? (
-        <>
-          {message?.split("\n").map((line, i) => (
+      <Flex
+        bg="blue.50"
+        color="blue.800"
+        px="24px"
+        rounded="3xl"
+        py="12px"
+        maxWidth="80%"
+      >
+        <Text fontSize="sm">
+          {message?.includes("\n") ? (
             <>
-              {line}{" "}
-              {i !== message?.split("\n").length - 1 && (
+              {message?.split("\n").map((line, i) => (
                 <>
-                  <br />
-                  <br />
+                  {line}{" "}
+                  {i !== message?.split("\n").length - 1 && (
+                    <>
+                      <br />
+                      <br />
+                    </>
+                  )}
                 </>
-              )}
+              ))}
             </>
-          ))}
-        </>
-      ) : (
-        message
-      )}
+          ) : (
+            message
+          )}
+        </Text>
+      </Flex>
 
       <Text fontSize="xs" color="gray.500">
         {sentAt &&
@@ -101,7 +112,16 @@ function RightMessage({ message, sentAt }: LeftMessageProps) {
       px="32px"
     >
       <Photo src={auth.currentUser?.photoURL ?? ""} />
-      {message}
+      <Flex
+        color="green.800"
+        bg="green.100"
+        px="24px"
+        rounded="3xl"
+        py="16px"
+        maxWidth="80%"
+      >
+        <Text fontSize="sm">{message}</Text>
+      </Flex>
       <Text fontSize="xs" color="gray.500">
         {sentAt &&
           `${new Date(sentAt).toLocaleTimeString(undefined, {
